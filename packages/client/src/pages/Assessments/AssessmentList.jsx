@@ -13,11 +13,13 @@ export const AssessmentList = () => {
   }, []);
 
   return (
-    <div>
-      {/*
-          List goes here
-          Please use the library react-table https://www.npmjs.com/package/react-table
-      */}
-    </div>
+    <><h1>Assessment List</h1> <hr />
+      <div>
+        {/*
+        List goes here
+        Please use the library react-table https://www.npmjs.com/package/react-table
+        */}
+      </div>
+    </>
   );
 };

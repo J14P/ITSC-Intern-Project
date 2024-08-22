@@ -1,61 +1,42 @@
-/* eslint-disable max-len */
+
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { AssessmentService } from '../../services/AssessmentService';
+import AssessmentTitle from '../../components/AssessmentTitle';
+import Instrument from '../../components/instrument';
+import CatDetails from '../../components/catdetails';
+import Questions from '../../components/questions';
 
 export const NewAssessment = () => {
 
   // create a form that utilizes the "onSubmit" function to send data to
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
+  const score = 0;
+  let riskLevel = `Low`;
+  let timeCreated = new Date();
+
   const onSubmit = async (data) => {
+    timeCreated = timeCreated.getDate();
+
+    if (score >= 0 && score <= 1) {
+      riskLevel = `Low`;
+    } else if (score >= 2 && score <= 3) {
+      riskLevel = `Medium`;
+    } else if (score >= 4 && score <= 5) {
+      riskLevel = `High`;
+    }
+
+    console.log(timeCreated);
+
     await AssessmentService.submit(data);
   };
 
   return <Form>
-    <h1>Cat Assessment Info</h1>
+    <AssessmentTitle />
     <h2>Instrument</h2>
-    <label for="behavioralInstrument">
-      Instrument Name:
-      <input type="text" name="behavioralInstrument" id="behavioralInstrument" value="Cat Behavioral Instrument" readOnly="true" /></label><br />
-    <h2>Cat Details</h2>
-    <label for="catName">
-      Cat Name:
-      <input type="text" name="catName" id="catName" placeholder="Cat Name" /></label><br />
-    <input type="text" placeholder="01-01-1901" /><br />
-    <h2>Questions & Responses</h2>
-    <ol>
-      <li><p>Previous contact with the Cat Judicial System</p>
-        <ul>
-          <li><input type="radio" value="0" name="previousContact" /> No</li>
-          <li><input type="radio" value="1" name="previousContact" /> Yes</li>
-        </ul>
-      </li>
-      <li><p>Physical altercations with other cats</p>
-        <ul>
-          <li><input type="radio" value="0" name="altercationsCats" /> 0-3 altercations (score = 0)</li>
-          <li><input type="radio" value="1" name="altercationsCats" /> 3+ altercations (score = 10)</li>
-        </ul>
-      </li>
-      <li><p>Physical altercations with owner (scratching, biting, etc...)</p>
-        <ul>
-          <li><input type="radio" value="1" name="altercationsOwner" /> 10+ altercations (score = 1)</li>
-          <li><input type="radio" value="0" name="altercationsOwner" /> 0-10 altercations (score = 0)</li>
-        </ul>
-      </li>
-      <li><p>Plays well with dogs</p>
-        <ul>
-          <li><input type="radio" value="1" name="playsWellWithDogs" /> No (score = 1)</li>
-          <li><input type="radio" value="0" name="playsWellWithDogs" /> Yes (score = 0)</li>
-        </ul>
-      </li>
-      <li><p>Hisses at strangers</p>
-        <ul>
-          <li><input type="radio" value="1" name="hissesAtStrangers" /> Yes (score = 1)</li>
-          <li><input type="radio" value="0" name="hissesAtStrangers" /> No (score = 0)</li>
-        </ul>
-      </li>
-    </ol>
-
+    <Instrument /><br />
+    <CatDetails /><br />
+    <Questions /><br />
     <Button variant="primary" type="submit">Submit</Button>
   </Form>;
 };
