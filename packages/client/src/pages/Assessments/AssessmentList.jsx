@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AssessmentService } from '../../services/AssessmentService';
+import { AssessmentService } from '../../microservices/AssessmentService';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
