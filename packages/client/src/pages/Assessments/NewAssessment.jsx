@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { AssessmentService } from '../../microservices/AssessmentService';
 import Questions from '../../components/questions';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const NewAssessment = () => {
 
@@ -14,8 +15,8 @@ export const NewAssessment = () => {
 
   const [ catName, setNameValue ] = useState(``);
   const [ catDateOfBirth, setDateValue ] = useState(``);
-  const [ score, setScoreValue ] = useState(``);
-  const [ riskLevel, setRiskLevel ] = useState(``);
+  const [ score, setScoreValue ] = useState(`0`);
+  const [ riskLevel, setRiskLevel ] = useState(`Low`);
 
   const handleNameChange = (event) => {
     setNameValue(event.target.value);
@@ -47,19 +48,14 @@ export const NewAssessment = () => {
   const handleSubmit = () => {
     console.log(`something is happening`);
     const createdAt = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-
-    console.log(catName);
-    console.log(catDateOfBirth);
-    console.log(score);
-    console.log(createdAt);
-
-    onSubmit(instrumentType, score, riskLevel, catName, catDateOfBirth, catDateOfBirth, createdAt);
+    // eslint-disable-next-line sort-keys
+    onSubmit({ instrument_type: instrumentType, score, risk_level: riskLevel, cat_name: catName, cat_date_of_birth: catDateOfBirth, created_at: createdAt });
   };
 
   return <Form name="CatAssessmentForm">
     <h1>New Assessment</h1>
-    <p>Current Risk Level: {riskLevel}</p>
-    <p>Current Score Level: {score}</p>
+    <p>Current Risk Level: <input type="text" value={riskLevel} readOnly={true} /></p>
+    <p>Current Score Level: <input type="text" value={score} readOnly={true} /></p>
     <h2>Instrument</h2>
     <label>
       Instrument Name:

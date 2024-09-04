@@ -30,11 +30,11 @@ class Questions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: `0`,
-      selectedOption2: `0`,
-      selectedOption3: `0`,
-      selectedOption4: `0`,
-      selectedOption5: `0`,
+      selectedOption: 0,
+      selectedOption2: 0,
+      selectedOption3: 0,
+      selectedOption4: 0,
+      selectedOption5: 0,
     };
   }
 
@@ -46,8 +46,8 @@ class Questions extends Component {
         <ol>
           <li><p>Previous contact with the Cat Judicial System</p>
             <ul>
-              <li><label><input type="radio" value="value" name="value" checked={value === options1.value} onChange={() => this.setState({ selectedOption: options1.value })} /> No (score = 0)</label></li>
-              <li><label><input type="radio" value="value" name="value" checked={value === options1.value} onChange={() => this.setState({ selectedOption: options1.value })} /> Yes (score = 1)</label></li><br />
+              <li><label><input type="radio" value="0" name="value" checked={value === options1.value} onChange={() => this.setState({ selectedOption: options1.value })} /> No (score = 0)</label></li>
+              <li><label><input type="radio" value="1" name="value" checked={value === options1.value} onChange={() => this.setState({ selectedOption: options1.value })} /> Yes (score = 1)</label></li><br />
             </ul>
           </li>
           <li><p>Physical altercations with other cats</p>

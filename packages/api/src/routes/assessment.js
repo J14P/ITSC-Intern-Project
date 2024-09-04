@@ -1,4 +1,4 @@
-const { AssessmentService } = require(`../microservices`);
+const { AssessmentService } = require(`../microservices/Assessment-Service`);
 const { ResponseHandler } = require(`../utils`);
 
 const { Router } = require(`express`);
@@ -6,7 +6,7 @@ const { Router } = require(`express`);
 const assessmentRouter = Router();
 
 assessmentRouter.post(
-  `/`,
+  `/submit`,
   async (req, res, next) => {
     try {
       const { assessment } = req.body;
@@ -14,6 +14,7 @@ assessmentRouter.post(
       // verify that your data is making it here to the API by using console.log(assessment);
       // call the AssessmentService.submit function from packages/api/src/microservices/Assessment-Service.js and
       // supply the correct parameters
+      console.log(`you made it to the api`);
       await AssessmentService.submit(assessment);
 
       ResponseHandler(
@@ -34,8 +35,6 @@ assessmentRouter.get(
       // verify that your data is making it here to the API by using console.log();
       // call the AssessmentService.getList function from packages/api/src/microservices/Assessment-Service.js
       const assessments = await AssessmentService.getList();
-
-      console.log(assessments);
 
       ResponseHandler(
         res,

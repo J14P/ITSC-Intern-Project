@@ -1,18 +1,20 @@
-import sequelize from 'sequelize';
-import { Assessment } from '../database/models';
+const { Sequelize } = require(`sequelize`);
+const Assessment = require(`../database/models`);
 
 exports.submit = async (assessment) => {
   // use the sequelize model Assessments from packages/api/src/database/models to save
   // the assessment data in the PostgreSQL database
-  await sequelize.createSchema(`AssessmentDB`, Assessment);
-  await sequelize.create(assessment);
+  console.log(`you made it to the assessment service`);
+  console.log(assessment);
+  await Sequelize.createSchema(`AssessmentDB`, Assessment);
+  await Sequelize.create(assessment);
 };
 
 exports.getList = () => {
   // use the sequelize model Assessments from packages/api/src/database/models to fetch
   // the assessment data from the PostgreSQL database
   const assessments = [];
-  sequelize.model(`AssessmentDB`);
+  Sequelize.model(`AssessmentDB`);
 
   return assessments;
 };
