@@ -10,7 +10,7 @@ export const NewAssessment = () => {
 
   // create a form that utilizes the "onSubmit" function to send data to
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
-  const instrumentType = `Cat Behavioral Instrument`;
+  const instrumentType = 0;
   const currentDate = new Date();
 
   const [ catName, setNameValue ] = useState(``);
@@ -42,9 +42,8 @@ export const NewAssessment = () => {
   };
 
   const handleSubmit = () => {
-    const createdAt = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
     // eslint-disable-next-line sort-keys
-    onSubmit({ instrument_type: instrumentType, score, risk_level: riskLevel, cat_name: catName, cat_date_of_birth: catDateOfBirth, created_at: createdAt });
+    onSubmit({ instrumentType, score, riskLevel, catName, catDateOfBirth });
   };
 
   const onSubmit = async (data) => {
@@ -58,7 +57,7 @@ export const NewAssessment = () => {
     <h2>Instrument</h2>
     <label>
       Instrument Name:
-      <input type="text" name="instrumentType" value={instrumentType} readOnly={true} />
+      <input type="text" name="instrumentType" value="Cat Behavioral Instrument" readOnly={true} />
     </label><br />
     <h2>Cat Details</h2>
     <label>
