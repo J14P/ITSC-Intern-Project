@@ -7,8 +7,8 @@ export class AssessmentService {
       // in a request to the express packages/api/src/routes/assessment.js
       // NOTE: the http.config file automatically adds /api to the front of your url
       // eslint-disable-next-line no-console
-      console.log(assessment);
-      return Axios.post(`/src/routes/assessment/submit`, { assessment })
+      console.log(`this is the assessment service ${assessment}`);
+      return Axios.post(`/assessment/submit`, { assessment })
         .then(response => response.data);
     }
     catch (err) {
@@ -21,7 +21,7 @@ export class AssessmentService {
       // Choose the correct method, url, and data to send
       // in a request to the express packages/api/src/routes/assessment.js
       // NOTE: the http.config file automatically adds /api to the front of your url
-      return Axios.get(`/src/routes/assessment/list`, {
+      return Axios.get(`/assessment/list`, {
         params: {
         },
       })

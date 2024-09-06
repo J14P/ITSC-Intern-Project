@@ -2,8 +2,8 @@
 
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
-import { AssessmentService } from '../../microservices/AssessmentService';
 import Questions from '../../components/questions';
+import { AssessmentService } from '../../microservices/AssessmentService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const NewAssessment = () => {
@@ -41,15 +41,14 @@ export const NewAssessment = () => {
     setRiskLevel(level);
   };
 
-  const onSubmit = async (data) => {
-    await AssessmentService.submit(data);
-  };
-
   const handleSubmit = () => {
-    console.log(`something is happening`);
     const createdAt = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
     // eslint-disable-next-line sort-keys
     onSubmit({ instrument_type: instrumentType, score, risk_level: riskLevel, cat_name: catName, cat_date_of_birth: catDateOfBirth, created_at: createdAt });
+  };
+
+  const onSubmit = async (data) => {
+    await AssessmentService.submit(data);
   };
 
   return <Form name="CatAssessmentForm">
