@@ -1,61 +1,73 @@
 /* eslint-disable max-len */
-import React from 'react';
+
 import { Button, Form } from 'react-bootstrap';
-import { AssessmentService } from '../../services/AssessmentService';
+import { useState } from 'react';
+import Questions from '../../components/questions';
+import { AssessmentService } from '../../microservices/AssessmentService';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const NewAssessment = () => {
 
   // create a form that utilizes the "onSubmit" function to send data to
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
+  const instrumentType = 0;
+  const currentDate = new Date();
+
+  const [ catName, setNameValue ] = useState(``);
+  const [ catDateOfBirth, setDateValue ] = useState(``);
+  const [ score, setScoreValue ] = useState(`0`);
+  const [ riskLevel, setRiskLevel ] = useState(`Low`);
+
+  const handleNameChange = (event) => {
+    setNameValue(event.target.value);
+  };
+
+  const handleDateChange = (event) => {
+    setDateValue(event.target.value);
+  };
+
+  function getScoreData(data) {
+    setScoreValue(data);
+  }
+
+  const handleRiskLevel = (level) => {
+    if (score >= 0 && score <= 1) {
+      level = `Low`;
+    } else if (score >= 2 && score <= 3) {
+      level = `Medium`;
+    } else if (score >= 4 && score <= 5) {
+      level = `High`;
+    }
+    setRiskLevel(level);
+  };
+
+  const handleSubmit = () => {
+    // eslint-disable-next-line sort-keys
+    onSubmit({ instrumentType, score, riskLevel, catName, catDateOfBirth });
+  };
+
   const onSubmit = async (data) => {
     await AssessmentService.submit(data);
   };
 
-  return <Form>
-    <h1>Cat Assessment Info</h1>
+  return <Form name="CatAssessmentForm">
+    <h1>New Assessment</h1>
+    <p>Current Risk Level: <input type="text" value={riskLevel} readOnly={true} /></p>
+    <p>Current Score Level: <input type="text" value={score} readOnly={true} /></p>
     <h2>Instrument</h2>
-    <label for="behavioralInstrument">
+    <label>
       Instrument Name:
-      <input type="text" name="behavioralInstrument" id="behavioralInstrument" value="Cat Behavioral Instrument" readOnly="true" /></label><br />
+      <input type="text" name="instrumentType" value="Cat Behavioral Instrument" readOnly={true} />
+    </label><br />
     <h2>Cat Details</h2>
-    <label for="catName">
+    <label>
       Cat Name:
-      <input type="text" name="catName" id="catName" placeholder="Cat Name" /></label><br />
-    <input type="text" placeholder="01-01-1901" /><br />
-    <h2>Questions & Responses</h2>
-    <ol>
-      <li><p>Previous contact with the Cat Judicial System</p>
-        <ul>
-          <li><input type="radio" value="0" name="previousContact" /> No</li>
-          <li><input type="radio" value="1" name="previousContact" /> Yes</li>
-        </ul>
-      </li>
-      <li><p>Physical altercations with other cats</p>
-        <ul>
-          <li><input type="radio" value="0" name="altercationsCats" /> 0-3 altercations (score = 0)</li>
-          <li><input type="radio" value="1" name="altercationsCats" /> 3+ altercations (score = 10)</li>
-        </ul>
-      </li>
-      <li><p>Physical altercations with owner (scratching, biting, etc...)</p>
-        <ul>
-          <li><input type="radio" value="1" name="altercationsOwner" /> 10+ altercations (score = 1)</li>
-          <li><input type="radio" value="0" name="altercationsOwner" /> 0-10 altercations (score = 0)</li>
-        </ul>
-      </li>
-      <li><p>Plays well with dogs</p>
-        <ul>
-          <li><input type="radio" value="1" name="playsWellWithDogs" /> No (score = 1)</li>
-          <li><input type="radio" value="0" name="playsWellWithDogs" /> Yes (score = 0)</li>
-        </ul>
-      </li>
-      <li><p>Hisses at strangers</p>
-        <ul>
-          <li><input type="radio" value="1" name="hissesAtStrangers" /> Yes (score = 1)</li>
-          <li><input type="radio" value="0" name="hissesAtStrangers" /> No (score = 0)</li>
-        </ul>
-      </li>
-    </ol>
-
-    <Button variant="primary" type="submit">Submit</Button>
+      <input type="text" name="catName" value={catName} placeholder="Cat Name" onChange={handleNameChange} /></label><br />
+    <label>
+      Date of Birth:
+      <input type="date" value={catDateOfBirth} onChange={handleDateChange} />
+    </label>
+    <Questions /><br />
+    <Button variant="primary" onClick={() => { handleSubmit(); }}>Submit</Button>
   </Form>;
 };
