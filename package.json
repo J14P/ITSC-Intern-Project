@@ -7,9 +7,11 @@
     "check-updates:all": "ncu --configFileName .check-updates.json --target latest --errorLevel 1"
   },
   "devDependencies": {
+    "@types/react-table": "^7.7.20",
     "npm-check-updates": "^16.5.1"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.5",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
     "react": "^18.3.1",

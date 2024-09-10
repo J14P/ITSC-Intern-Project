@@ -10,6 +10,7 @@ assessmentRouter.post(
   async (req, res, next) => {
     try {
       const assessment = await AssessmentService.submit(req.body);
+      // eslint-disable-next-line no-console
       console.log(`Submitting the Assessment`);
       // verify that your data is making it here to the API by using console.log(assessment);
       // call the AssessmentService.submit function from packages/api/src/microservices/Assessment-Service.js and
@@ -27,7 +28,7 @@ assessmentRouter.post(
 );
 
 assessmentRouter.get(
-  `/`,
+  `/list`,
   async (req, res, next) => {
     try {
       // verify that your data is making it here to the API by using console.log();

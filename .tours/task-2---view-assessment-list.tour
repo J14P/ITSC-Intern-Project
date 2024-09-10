@@ -23,14 +23,14 @@
       "line": 24
     },
     {
-      "file": "packages/client/src/pages/Assessments/AssessmentList.jsx",
-      "description": "# Assessment List\n\nFirst, fetch the assessments that you've created on the back-end by using the `getList()` function in the Assessment Service @ [packages/client/src/services/AssessmentService.js](./packages/client/src/services/AssessmentService.js)",
-      "line": 6
-    },
-    {
       "file": "packages/client/src/services/AssessmentService.js",
       "description": "# AssessmentService.getList()\n\nInside the `AssessmentService.getList()` function, send a GET request to the Express Router API @ `/api/assessment/list`\n\nThis will go to the back-end Express server @ [packages/api/src/routes/assessment.js](./packages/api/src/routes/assessment.js)",
       "line": 20
+    },
+    {
+      "file": "packages/client/src/pages/Assessments/AssessmentList.jsx",
+      "description": "# Assessment List\n\nFirst, fetch the assessments that you've created on the back-end by using the `getList()` function in the Assessment Service @ [packages/client/src/services/AssessmentService.js](./packages/client/src/services/AssessmentService.js)",
+      "line": 6
     },
     {
       "file": "packages/api/src/routes/assessment.js",
