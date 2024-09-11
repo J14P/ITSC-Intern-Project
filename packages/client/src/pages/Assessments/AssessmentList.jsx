@@ -1,6 +1,5 @@
 /* eslint-disable sort-keys */
 import React, { useEffect, useState } from 'react';
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { AssessmentService } from '../../microservices/AssessmentService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -61,12 +60,12 @@ export const AssessmentList = () => {
         List goes here
         Please use the library react-table https://www.npmjs.com/package/react-table
         */
-          <ReactTable
+          /* <ReactTable
             className="assessment"
             data={assessments}
             columns={columns}
             defaultPageSize={10}
-          />
+          />*/
         }
       </div>
     </>

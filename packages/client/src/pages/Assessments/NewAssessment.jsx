@@ -11,7 +11,6 @@ export const NewAssessment = () => {
   // create a form that utilizes the "onSubmit" function to send data to
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
   const instrumentType = 0;
-  const currentDate = new Date();
 
   const [ catName, setNameValue ] = useState(``);
   const [ catDateOfBirth, setDateValue ] = useState(``);
@@ -27,6 +26,7 @@ export const NewAssessment = () => {
   };
 
   function getScoreData(data) {
+    console.log(`This is the Score: ${data}`);
     setScoreValue(data);
   }
 
@@ -42,6 +42,8 @@ export const NewAssessment = () => {
   };
 
   const handleSubmit = () => {
+    getScoreData();
+    handleRiskLevel();
     // eslint-disable-next-line sort-keys
     onSubmit({ instrumentType, score, riskLevel, catName, catDateOfBirth });
   };
