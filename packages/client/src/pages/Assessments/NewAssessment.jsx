@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 
+import { useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import Questions from '../../components/questions';
@@ -14,7 +15,7 @@ export const NewAssessment = () => {
 
   const [ catName, setNameValue ] = useState(``);
   const [ catDateOfBirth, setDateValue ] = useState(``);
-  const [ score, setScoreValue ] = useState(`0`);
+  const [ score, setScore ] = useState(0);
   const [ riskLevel, setRiskLevel ] = useState(`Low`);
 
   const handleNameChange = (event) => {
@@ -25,25 +26,18 @@ export const NewAssessment = () => {
     setDateValue(event.target.value);
   };
 
-  function getScoreData(data) {
-    console.log(`This is the Score: ${data}`);
-    setScoreValue(data);
-  }
-
-  const handleRiskLevel = (level) => {
+  useEffect(() => {
     if (score >= 0 && score <= 1) {
-      level = `Low`;
+      setRiskLevel(`Low`);
     } else if (score >= 2 && score <= 3) {
-      level = `Medium`;
+      setRiskLevel(`Medium`);
     } else if (score >= 4 && score <= 5) {
-      level = `High`;
+      setRiskLevel(`High`);
     }
-    setRiskLevel(level);
-  };
+  },
+  [ score ]);
 
   const handleSubmit = () => {
-    getScoreData();
-    handleRiskLevel();
     // eslint-disable-next-line sort-keys
     onSubmit({ instrumentType, score, riskLevel, catName, catDateOfBirth });
   };
@@ -69,7 +63,7 @@ export const NewAssessment = () => {
       Date of Birth:
       <input type="date" value={catDateOfBirth} onChange={handleDateChange} />
     </label>
-    <Questions /><br />
+    <Questions setScore={setScore} /><br />
     <Button variant="primary" onClick={() => { handleSubmit(); }}>Submit</Button>
   </Form>;
 };
