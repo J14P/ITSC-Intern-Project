@@ -2,28 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-/* class Questions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOption: 0,
-      selectedOption2: 0,
-      selectedOption3: 0,
-      selectedOption4: 0,
-      selectedOption5: 0,
-    };
-  }
-
-  render() {
-    const { value, value2, value3, value4, value5 } = this.state;
-
-    return (
-    );
-  }
-}
-
-export default Questions;*/
-
 export default function Questions({ setScore }) {
 
   const [ value, setValue ] = useState(0);

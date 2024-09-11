@@ -1,0 +1,46 @@
+.Green {
+  background-color: #33cc33;
+  text-align: center;
+  font-weight: bold;
+  width: auto;
+}
+
+.Yellow {
+  background-color: #ffff00;
+  text-align: center;
+  font-weight: bold;
+}
+
+.Red {
+  background-color: #ff0000;
+  color: white;
+  text-align: center;
+  text-emphasis: bold;
+}
+
+.instrumentNameContainer {
+  display: flex;
+}
+
+.instrument {
+  padding-bottom: 10px;
+}
+
+.pp {
+  padding-top: 5px;
+  padding-right: 5px;
+}
+
+.instrumentName {
+  flex-direction: column;
+  width: 200px;
+  height: 30px;
+}
+
+.catDetails {
+  padding-bottom: 30px;
+}
+
+.catName {
+  padding-top: 10px;
+}
