@@ -14,21 +14,41 @@ export default function Table({ columns, data }) {
   });
 
   return (
-
     <table {...getTableProps()}>
       <thead>
-        {headerGroups.map(headerGroup =>
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column =>
-              <th {...column.getHeaderProps()}>{column.render(`Header`)}</th>)}
-          </tr>)}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
+        {headerGroups.map((headerGroup) => {
+          const { key, ...restHeaderGroupProps } =
+            headerGroup.getHeaderGroupProps();
           return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => <td {...cell.getCellProps()}>{cell.render(`Cell`)}</td>)}
+            <tr key={key} {...restHeaderGroupProps}>
+              {headerGroup.headers.map((column) => {
+                // eslint-disable-next-line no-shadow
+                const { key, ...restColumn } = column.getHeaderProps();
+                return (
+                  <th key={key} {...restColumn}>
+                    {column.render(`Header`)}
+                  </th>
+                );
+              })}
+            </tr>
+          );
+        })}
+      </thead>
+      <tbody {...getTableBodyProps}>
+        {rows.map((row) => {
+          prepareRow(row);
+          const { key, ...restRowProps } = row.getRowProps();
+          return (
+            <tr key={key} {...restRowProps}>
+              {row.cells.map((cell) => {
+                // eslint-disable-next-line no-shadow
+                const { key, ...restCellProps } = cell.getCellProps();
+                return (
+                  <td key={key} {...restCellProps}>
+                    {cell.render(`Cell`)}
+                  </td>
+                );
+              })}
             </tr>
           );
         })}
