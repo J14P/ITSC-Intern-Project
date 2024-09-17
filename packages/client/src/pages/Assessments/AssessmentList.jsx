@@ -57,18 +57,6 @@ export const AssessmentList = () => {
     }
   };
 
-  /* useEffect(() => {
-    const fetchAllAssessments = async () => {
-      try {
-        const response = await AssessmentService.getAll();
-        setAssessments(response || []);
-      } catch (err) {
-        console.error(`Failed to fetch assessments:`, err.message);
-      }
-    };
-    fetchAllAssessments();
-  }, [ show ]); */
-
   const toggleDeletedAssessment = (event) => {
     if (event.target.checked === true)
     {
