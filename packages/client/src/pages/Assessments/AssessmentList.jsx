@@ -22,6 +22,7 @@ export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
   const [ loading, setLoading ] = useState(false);
   const [ show, setShow ] = useState();
+  const [ disabled, setDisabled ] = useState(false);
 
   // Fetch all assessments using AssessmentService.getList function
   useEffect(() => {
@@ -34,6 +35,7 @@ export const AssessmentList = () => {
         try {
           setLoading(true);
           const response = await AssessmentService.getList();
+          setDisabled(false);
           const nonDeletedAssessments = response.assessments.filter(assessment => !assessment.deleted); // Only return non-deleted assessments
           setAssessments(nonDeletedAssessments || []);
         } catch (err) {
@@ -98,7 +100,7 @@ export const AssessmentList = () => {
     },
     {
       Cell: ({ value }) =>
-        <Button variant="danger" onClick={() => deleteAssessment(value)}>
+        <Button variant="danger" disabled={disabled} onClick={() => deleteAssessment(value)}>
           Delete
         </Button>,
       Header: `Actions`,
