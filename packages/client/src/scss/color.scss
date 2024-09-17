@@ -15,7 +15,7 @@
   background-color: #ff0000;
   color: white;
   text-align: center;
-  text-emphasis: bold;
+  font-weight: bold;
 }
 
 .instrumentNameContainer {
@@ -70,4 +70,35 @@
 
 .globalFilter {
   padding-bottom: 20px;
+}
+
+.globalFilterInput {
+  width: 235px;
+}
+
+.tableDiv {
+  padding-top: 20px;
+}
+
+.toggleContainer {
+  border: 1px solid black;
+  width: fit-content;
+  height: fit-content;
+  padding: 10px;
+}
+
+.toggleP {
+  display: inline-block; 
+  align-items: center; 
+  padding-left: 10px;
+  font-weight: bold;
+  height: 10px
+}
+
+.toggleBox {
+  flex: none; 
+  height: 15px;
+  width: 15px;
+  vertical-align: middle;
+  top: 1px;
 }

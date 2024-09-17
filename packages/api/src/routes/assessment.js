@@ -46,4 +46,41 @@ assessmentRouter.get(
   },
 );
 
+assessmentRouter.get(
+  `/listAll`,
+  async (req, res, next) => {
+    try {
+      const assessments = await AssessmentService.listAll();
+
+      ResponseHandler(
+        res,
+        `Fetched all assessments`,
+        { assessments },
+      );
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+assessmentRouter.patch(
+  `/:id/delete`,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const result = await AssessmentService.softDelete(id);
+      if (result === 0) {
+        return res.status(404).json({ message: `Assessment not found` });
+      }
+      ResponseHandler(
+        res,
+        `Assessment soft deleted`,
+        { result },
+      );
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
 module.exports = { assessmentRouter };

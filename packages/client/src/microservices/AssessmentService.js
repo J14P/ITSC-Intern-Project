@@ -25,7 +25,20 @@ export class AssessmentService {
       });
   }
 
+  static getAll() {
+    return Axios.get(`/assessment/listAll`, {
+      params: {
+        withTrashed: true,
+      },
+    })
+      .then(response => response.data.data)
+      .catch(err => {
+        console.error(`Get all list error`, err);
+      });
+  }
+
   static deleteAssessment(assessmentId) {
+    console.log(`Deleted Assessment:`, assessmentId);
     return Axios.patch(`/assessment/${assessmentId}/delete`)
       .then(response => response.data)
       .catch(err => {
