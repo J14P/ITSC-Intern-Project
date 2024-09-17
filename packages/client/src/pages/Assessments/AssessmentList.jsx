@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable sort-keys */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { useGlobalFilter, useSortBy, useTable } from 'react-table';
 import { AssessmentService } from '../../microservices/AssessmentService';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from './Table';
 
 const GlobalFilter = ({ globalFilter, setGlobalFilter }) =>
   <span>
@@ -14,10 +14,9 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) =>
       value={globalFilter || ``}
       onChange={e => setGlobalFilter(e.target.value || undefined)}
       placeholder="Enter values to filter the table..."
-      className="globalFilter"
+      className="globalFilterInput"
     />
   </span>;
-
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
   const [ loading, setLoading ] = useState(false);
@@ -52,16 +51,16 @@ export const AssessmentList = () => {
     fetchAssessments();
   }, []);
 
-  const deleteAssessment = async (assessmentId) => {
+  const deleteAssessment = useCallback(async (assessmentId) => {
     try {
-      await AssessmentService.delete(assessmentId);
+      await AssessmentService.deleteAssessment(assessmentId);
       setAssessments(assessments.filter(assessment => assessment.id !==
         assessmentId));
     }
     catch (err) {
       console.error(`Failed to delete the assessment`, err.message);
     }
-  };
+  }, [ assessments ]);
 
   const columns = useMemo(
     () => [
@@ -110,19 +109,77 @@ export const AssessmentList = () => {
         Header: `Actions`,
         accessor: `delete`,
       },
-    ], [ deleteAssessment ]
+    ], [ assessments ]
+  );
+
+  const {
+    getTableBodyProps,
+    getTableProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    setGlobalFilter,
+    state,
+  } = useTable(
+    { columns, data: assessments },
+    useGlobalFilter,
+    useSortBy,
   );
 
   return (
-    <><h1>Assessment List</h1> <hr />
-      <div>
-        {/*
-        List goes here
-        Please use the library react-table https://www.npmjs.com/package/react-table
-        */
-          <Table columns={columns} data={assessments} />
-        }
-      </div>
-    </>
+    <div>
+      {loading ?
+        <div>Loading...</div> :
+        <>
+          <h1>Assessments List</h1>
+          <div className="globalFilter">
+            <GlobalFilter
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter} />
+          </div>
+          <div>
+            <table className={`tableWrapper`} {...getTableProps()}>
+              <thead>
+                {headerGroups.map((headerGroup) => {
+                  const { key, ...restHeaderGroupProps } =
+            headerGroup.getHeaderGroupProps();
+                  return (
+                    <tr key={key} {...restHeaderGroupProps}>
+                      {headerGroup.headers.map((column) => {
+                        // eslint-disable-next-line no-shadow
+                        const { key, ...restColumn } = column.getHeaderProps();
+                        return (
+                          <th key={key} {...restColumn}>
+                            {column.render(`Header`)}
+                          </th>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </thead>
+              <tbody {...getTableBodyProps}>
+                {rows.map((row) => {
+                  prepareRow(row);
+                  const { key, ...restRowProps } = row.getRowProps();
+                  return (
+                    <tr key={key} {...restRowProps}>
+                      {row.cells.map((cell) => {
+                        // eslint-disable-next-line no-shadow
+                        const { key, ...restCellProps } = cell.getCellProps();
+                        return (
+                          <td key={key} {...restCellProps}>
+                            {cell.render(`Cell`)}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>}
+    </div>
   );
 };

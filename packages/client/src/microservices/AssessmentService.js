@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Axios from '../utils/http.config';
 
 export class AssessmentService {
@@ -28,5 +29,18 @@ export class AssessmentService {
     catch (err) {
       throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
     }
+  }
+
+  static deleteAssessment(assessmentId) {
+    return Axios.patch(`/assessment/${assessmentId}/delete`)
+      .then(response => {
+        console.log(response);
+        return response.data;
+      })
+      .catch(err => {
+        console.error(err);
+        throw new Error(`${err.response?.statusText ||
+          `Error`} - ${err.response?.data?.message || `An error occurred`}`);
+      });
   }
 }

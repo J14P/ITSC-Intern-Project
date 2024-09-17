@@ -57,10 +57,17 @@
   th {
     padding: 15px;
     text-align: center;
+    border-bottom: 2px solid black;
+    border-right: 1px dashed black;
   }
 
   td {
     padding: 5px 10px;
     text-align: center;
+    border-right: 1px dashed black;
   }
+}
+
+.globalFilter {
+  padding-bottom: 20px;
 }
