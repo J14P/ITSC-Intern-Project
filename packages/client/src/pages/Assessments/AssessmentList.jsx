@@ -24,28 +24,29 @@ export const AssessmentList = () => {
   // fetch all assessments using the AssessmentService.getList function from OCAT/client/services/AssessmentService.js
   useEffect(() => {
     const fetchAssessments = async () => {
-      if (await AssessmentService.getList()) {
-        try {
-          setLoading(true);
-          const response = await AssessmentService.getList();
-          const nonDeletedAssessments = response.assessments.filter(assessment => !assessment.deleted);
-          setAssessments(nonDeletedAssessments || []);
-        } catch (err) {
-          console.error(`Failed to fetch assessments:`, err.message);
-        } finally {
-          setLoading(false);
+      try {
+        let response;
+        setLoading(true);
+        if (await AssessmentService.getList()) {
+          response = await AssessmentService.getList();
         }
-      }
-      else {
-        setAssessments([{
-          id: 1,
-          instrument_type: `Cat Behavioral Assessment`,
-          score: 3,
-          risk_level: `Medium`,
-          cat_name: `Test`,
-          cat_date_of_birth: `1/1/2000`,
-          created_at: new Date().toString(),
-        }]);
+        else {
+          setAssessments([{
+            id: 1,
+            instrument_type: `Cat Behavioral Assessment`,
+            score: 3,
+            risk_level: `Medium`,
+            cat_name: `Test`,
+            cat_date_of_birth: `1/1/2000`,
+            created_at: new Date().toString(),
+          }]);
+        }
+        const nonDeletedAssessments = response.assessments.filter(assessment => !assessment.deleted);
+        setAssessments(nonDeletedAssessments || []);
+      } catch (err) {
+        console.error(`Failed to fetch assessments:`, err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchAssessments();
