@@ -116,7 +116,7 @@ export const AssessmentList = () => {
     setGlobalFilter,
     state,
   } = useTable(
-    { columns, data: assessments },
+    { columns, data: assessments, initialState: { sortBy: [{ desc: false, id: `id` }] } },
     useGlobalFilter,
     useSortBy,
   );
@@ -156,13 +156,6 @@ export const AssessmentList = () => {
                         return (
                           <th key={key} {...restColumn}>
                             {column.render(`Header`)}
-                            <span>
-                              {column.isSorted ?
-                                column.isSortedDesc ?
-                                  ` 🔽` :
-                                  ` 🔼` :
-                                ``}
-                            </span>
                           </th>
                         );
                       })}
