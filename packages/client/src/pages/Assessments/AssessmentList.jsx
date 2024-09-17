@@ -1,18 +1,41 @@
+/* eslint-disable no-console */
 /* eslint-disable sort-keys */
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { AssessmentService } from '../../microservices/AssessmentService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from './Table';
 
+const GlobalFilter = ({ globalFilter, setGlobalFilter }) =>
+  <span>
+    Search/Filter:{` `}
+    <input
+      value={globalFilter || ``}
+      onChange={e => setGlobalFilter(e.target.value || undefined)}
+      placeholder="Enter values to filter the table..."
+      className="globalFilter"
+    />
+  </span>;
+
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
+  const [ loading, setLoading ] = useState(false);
 
   // fetch all assessments using the AssessmentService.getList function from OCAT/client/services/AssessmentService.js
   useEffect(() => {
     const fetchAssessments = async () => {
       if (await AssessmentService.getList()) {
-        setAssessments(await AssessmentService.getList());
+        try {
+          setLoading(true);
+          const response = await AssessmentService.getList();
+          const nonDeletedAssessments = response.assessments.filter(assessment => !assessment.deleted);
+          setAssessments(nonDeletedAssessments || []);
+        } catch (err) {
+          console.error(`Failed to fetch assessments:`, err.message);
+        } finally {
+          setLoading(false);
+        }
       }
       else {
         setAssessments([{
@@ -25,10 +48,20 @@ export const AssessmentList = () => {
           created_at: new Date().toString(),
         }]);
       }
-
     };
     fetchAssessments();
   }, []);
+
+  const deleteAssessment = async (assessmentId) => {
+    try {
+      await AssessmentService.delete(assessmentId);
+      setAssessments(assessments.filter(assessment => assessment.id !==
+        assessmentId));
+    }
+    catch (err) {
+      console.error(`Failed to delete the assessment`, err.message);
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -68,8 +101,16 @@ export const AssessmentList = () => {
         Header: `Deleted At`,
         accessor: `deleted_at`,
       },
-    ],
-    []
+      {
+        Cell: ({ value }) =>
+          <Button variant="danger" onClick={() =>
+            deleteAssessment(value)}>
+            Delete
+          </Button>,
+        Header: `Actions`,
+        accessor: `delete`,
+      },
+    ], [ deleteAssessment ]
   );
 
   return (

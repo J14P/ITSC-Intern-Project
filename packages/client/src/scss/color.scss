@@ -44,3 +44,23 @@
 .catName {
   padding-top: 10px;
 }
+
+.tableWrapper {
+  border-spacing: 0;
+  border: 5px solid #ededed;
+  width: 100%;
+
+  tr:nth-child(2n) {
+    background-color: #fafafa;
+  }
+
+  th {
+    padding: 15px;
+    text-align: center;
+  }
+
+  td {
+    padding: 5px 10px;
+    text-align: center;
+  }
+}

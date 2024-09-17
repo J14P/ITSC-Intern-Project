@@ -1,4 +1,4 @@
-import React from 'react';
+import '../../scss/color.scss';
 import { useTable } from 'react-table';
 
 export default function Table({ columns, data }) {
@@ -14,7 +14,7 @@ export default function Table({ columns, data }) {
   });
 
   return (
-    <table {...getTableProps()}>
+    <table className={`tableWrapper`} {...getTableProps()}>
       <thead>
         {headerGroups.map((headerGroup) => {
           const { key, ...restHeaderGroupProps } =
